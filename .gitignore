@@ -1,5 +1,5 @@
 #config
-*.env
+config
 
 #vscode
 *.vscode
