@@ -3,6 +3,10 @@ import app from './index'
 import request from 'supertest'
 //import db from '../../src/db/dbDev'
 
+/**
+ * @jest-environment node
+ */
+
 describe('Identity testing', () => {
   it('Should register new user', async (done) => {
     const signUpResponse = await request(app).post(identity.register).send({

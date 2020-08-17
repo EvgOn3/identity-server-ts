@@ -1,4 +1,4 @@
-import { httpMethods } from './../../contracts/v1/constants'
+import { httpMethods } from '../../constants/constants'
 import { AppRoute } from '../../types/general'
 import { identity } from './../../contracts/v1/routes'
 import { registerAction } from '../../controllers/v1/IdentityController'

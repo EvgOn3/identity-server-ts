@@ -10,7 +10,7 @@
     "clean-build": "rimraf dist && webpack --env.NODE_ENV=production",
     "dev-server-reload": "nodemon --watch webpack.config.ts -x webpack-dev-server -- --env.NODE_ENV=development",
     "dev": "env-cmd -f ./config/dev.env nodemon --exec babel-node src/index.ts --extensions \".js,.ts\"",
-    "test": "env-cmd -f ./config/test.env jest --detectOpenHandles",
+    "test": "env-cmd -f ./config/dev.env jest --detectOpenHandles",
     "debug": "env-cmd -f ./config/dev.env nodemon --exec babel-node --inspect src/index.ts --extensions \".js,.ts\""
   },
   "babel": {
@@ -38,6 +38,7 @@
     "@types/mongoose": "^5.7.36",
     "@types/node": "^14.0.27",
     "@types/supertest": "^2.0.10",
+    "@types/uuid": "^8.3.0",
     "@types/validator": "^13.1.0",
     "@types/webpack": "^4.41.21",
     "babel-loader": "^8.1.0",
@@ -57,6 +58,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.29",
+    "uuid": "^8.3.0",
     "validator": "^13.1.1"
   }
 }

@@ -1,6 +1,3 @@
-import { AppRoute, HttpMethod } from './../src/types/general'
-import * as mongoose from 'mongoose'
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {

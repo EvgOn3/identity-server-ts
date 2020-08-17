@@ -1,5 +1,5 @@
 import express from 'express'
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import routes from './routes/'
 
 const app = express()
@@ -18,7 +18,7 @@ app.post('/', (req, res) => {
 routes.forEach((route) => {
   app[route.method](
     route.path,
-    (req: Request, res: Response, next: Function) => {
+    (req: Request, res: Response, next: NextFunction) => {
       route
         .action(req, res)
         .then(() => next)
