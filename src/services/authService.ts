@@ -1,9 +1,13 @@
-import { IUser, IRefreshToken } from './../types/userType'
+import { IAuthResponse } from './../contracts/v1/responses'
+import { IUserDocument, IRefreshToken } from './../types/userType'
 import { v4 as uuid } from 'uuid'
 import { sign } from 'jsonwebtoken'
 import mongoose from 'mongoose'
 
-export async function generateTokens(user: IUser, fingerPrint: string) {
+export async function generateTokens(
+  user: IUserDocument,
+  fingerPrint: string
+): Promise<IAuthResponse> {
   const userId = user.id
   const { jwt, jwtId } = generateJwt(userId)
   const now = Math.floor(Date.now() / 1000)

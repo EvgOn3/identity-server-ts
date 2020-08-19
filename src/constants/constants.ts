@@ -1,4 +1,5 @@
 import { HttpMethod } from '../types/general'
+
 export class httpMethods {
   static get: HttpMethod = 'get'
   static put: HttpMethod = 'put'

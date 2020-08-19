@@ -1,3 +1,4 @@
+import { ErrorResponse } from './contracts/v1/responses'
 import express from 'express'
 import { Request, Response, NextFunction } from 'express'
 import routes from './routes/'
@@ -22,9 +23,15 @@ routes.forEach((route) => {
       route
         .action(req, res)
         .then(() => next)
-        .catch((err: any) => next(err))
+        .catch((err: ErrorResponse) => next(err))
     }
   )
 })
+
+app.use(
+  (err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
+    res.status(err.code).json(err.message)
+  }
+)
 
 export default app
