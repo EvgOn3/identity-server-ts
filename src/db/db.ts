@@ -1,8 +1,10 @@
+import { envVarsNames } from './../constants/constants'
+import { tryToGetEnvVar } from './../utils/utils'
 import mongoose from 'mongoose'
 
 export default {
   connect: () => {
-    mongoose.connect(process.env.DB_CONNECTION, {
+    mongoose.connect(tryToGetEnvVar(envVarsNames.DB_CONNECTION) as string, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

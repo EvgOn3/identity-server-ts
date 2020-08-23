@@ -1,17 +1,21 @@
+import { AuthResponse } from './../contracts/v1/responses'
 import { Document, Model } from 'mongoose'
 
-export interface IRefreshToken {
-  _id?: string
-  jwtId: string
-  fingerPrint: string
-  expiredAt: number
-  createdAt: number
+export class RefreshToken {
+  constructor(
+    public jwtId: string,
+    public fingerPrint: string,
+    public expiredAt: number,
+    public createdAt: number,
+    public _id?: string
+  ) {}
 }
 
 export interface IUserDocument extends Document {
   email: string
   password: string
-  refreshTokens: IRefreshToken[]
+  refreshTokens: RefreshToken[]
+  generateTokens: (fingerPrint: string) => Promise<AuthResponse>
 }
 
 export interface IUserModel extends Model<IUserDocument> {

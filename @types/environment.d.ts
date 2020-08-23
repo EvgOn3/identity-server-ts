@@ -8,16 +8,7 @@ declare global {
       PORT: number
     }
   }
-  namespace Express {
-    // interface AppRoute {
-    //   path: string
-    //   method: string
-    //   action: Function
-    // }
-  }
-  // type CallbackFunction = () => void
 }
-
 // If this file has no import/export statements (i.e. is a script)
 // convert it into a module by adding an empty export statement.
 export {}

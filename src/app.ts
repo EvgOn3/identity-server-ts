@@ -2,19 +2,13 @@ import { ErrorResponse } from './contracts/v1/responses'
 import express from 'express'
 import { Request, Response, NextFunction } from 'express'
 import routes from './routes/'
+import helmet from 'helmet'
 
 const app = express()
 
 app.use(express.json())
-
-app.get('/', (req, res) => {
-  res.status(200).send('Hello')
-})
-
-app.post('/', (req, res) => {
-  var x = req.body
-  res.status(200).send(x)
-})
+app.use(helmet())
+//app.use(cors())
 
 routes.forEach((route) => {
   app[route.method](
@@ -23,15 +17,9 @@ routes.forEach((route) => {
       route
         .action(req, res)
         .then(() => next)
-        .catch((err: ErrorResponse) => next(err))
+        .catch((err: any) => next(err))
     }
   )
 })
-
-app.use(
-  (err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.code).json(err.message)
-  }
-)
 
 export default app

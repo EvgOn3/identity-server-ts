@@ -1,9 +1,9 @@
-import { ErrorResponse } from './../contracts/v1/responses'
 import { IUserDocument, IUserModel } from './../types/userType'
 import { excludedFields } from './../constants/constants'
 import { model, Schema } from 'mongoose'
 import isEmail from 'validator/lib/isEmail'
 import bcrypt from 'bcryptjs'
+import generateTokens from './tokensGeneratorService'
 
 class UserExcludedFields extends excludedFields {
   static password = 'password'
@@ -43,13 +43,15 @@ const userSchema = new Schema(
   { timestamps: true }
 )
 
-userSchema.methods.toJSON = function () {
+userSchema.methods.toJSON = function (this: IUserDocument) {
   let userObj = this.toObject()
   for (const field in UserExcludedFields) {
     delete userObj[field]
   }
   return userObj
 }
+
+userSchema.methods.generateTokens = generateTokens
 
 userSchema.pre<IUserDocument>('save', async function (next) {
   if (this.isModified(UserExcludedFields.password))
@@ -61,14 +63,12 @@ userSchema.pre<IUserDocument>('save', async function (next) {
 userSchema.statics.findByCredentials = async (
   email: string,
   password: string
-): Promise<IUserDocument> => {
+) => {
   const user = await User.findOne({ email })
-
-  if (!user) throw new ErrorResponse(400, 'User not found')
+  if (!user) return null
 
   const isMatch = await bcrypt.compare(password, user.password)
-
-  if (!isMatch) throw new ErrorResponse(400, 'Incorrect password')
+  if (!isMatch) return null
 
   return user
 }

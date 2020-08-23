@@ -1,4 +1,4 @@
-import { HttpMethod } from '../types/general'
+import { HttpMethod, EnvVarName } from '../types/general'
 
 export class httpMethods {
   static get: HttpMethod = 'get'
@@ -14,4 +14,12 @@ export class excludedFields {
   static updatedAt = 'updatedAt'
   static createdAt = 'createdAt'
   //  _id: '_id'
+}
+
+export const envVarsNames = {
+  JWT_ACCESS_KEY: 'JWT_ACCESS_KEY' as EnvVarName,
+  DB_CONNECTION: 'DB_CONNECTION' as EnvVarName,
+  JWT_REFRESH_EXPIRE: 'JWT_REFRESH_EXPIRE' as EnvVarName,
+  JWT_ACCESS_EXPIRE: 'JWT_ACCESS_EXPIRE' as EnvVarName,
+  PORT: 'PORT' as EnvVarName,
 }

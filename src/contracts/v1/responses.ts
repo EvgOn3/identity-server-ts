@@ -1,18 +1,15 @@
 import { IUser } from './../../types/userType'
 
-export interface IAuthResponse {
-  jwt: string
-  refreshToken: string
+export class AuthResponse {
+  constructor(public jwt: string, public refreshToken: string) {}
 }
 
-export interface ILoginResponse extends IAuthResponse {
-  user: IUser
-}
-
-export class ErrorResponse extends Error {
-  code: number
-  constructor(code: number, message: string) {
-    super(message)
-    this.code = code
+export class LoginResponse extends AuthResponse {
+  constructor(public user: IUser, jwt: string, refreshToken: string) {
+    super(jwt, refreshToken)
   }
+}
+
+export class ErrorResponse {
+  constructor(public error: string) {}
 }

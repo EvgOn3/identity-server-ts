@@ -4,23 +4,43 @@ import {
 } from './../../contracts/v1/requests'
 import { Request, Response } from 'express'
 import User from '../../models/user'
-import { generateTokens } from '../../services/authService'
+import { ErrorResponse } from '../../contracts/v1/responses'
 
 export async function registerAction(req: Request, res: Response) {
   const reqBody = req.body as IUserRegistrationRequest
-  const newUser = new User(reqBody)
-  const user = await newUser.save()
-  if (!user) {
-    res.send(400).send('Unable to register new user')
-    return
-  }
-  const authResult = await generateTokens(user, reqBody.fingerPrint)
+  if (!reqBody.email)
+    return res.status(400).send(new ErrorResponse('Email is required'))
+  if (!reqBody.password || reqBody.password.length < 2)
+    /* TODO */
+    return res.status(400).send(new ErrorResponse('Password to ez'))
+  if (!reqBody.fingerPrint)
+    return res.status(400).send(new ErrorResponse('Bad request'))
+
+  const user = await User.findOne({ email: reqBody.email })
+  if (user) return res.status(400).send(new ErrorResponse('Email already used'))
+
+  const newUser = await new User(reqBody).save()
+  const authResult = await newUser.generateTokens(reqBody.fingerPrint)
+
   res.status(201).json(authResult)
 }
 
 export async function loginAction(req: Request, res: Response) {
   const reqBody = req.body as ILoginRequest
+
   const user = await User.findByCredentials(reqBody.email, reqBody.password)
-  const authResult = await generateTokens(user, reqBody.fingerPrint)
+  if (!user)
+    return res
+      .status(400)
+      .send(new ErrorResponse('Incorrect email or password'))
+
+  const refreshToken = user.refreshTokens.find(
+    (f) => f.fingerPrint === reqBody.fingerPrint
+  )
+  if (!refreshToken)
+    return res.status(400).send(new ErrorResponse('Incorrect fingerprint'))
+
+  const authResult = await user.generateTokens(reqBody.fingerPrint)
+
   res.status(200).json(authResult)
 }
