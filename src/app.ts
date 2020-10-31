@@ -3,6 +3,7 @@ import express from 'express'
 import { Request, Response, NextFunction } from 'express'
 import routes from './routes/'
 import helmet from 'helmet'
+import auth from './middleware/auth'
 
 const app = express()
 
@@ -15,7 +16,7 @@ routes.forEach((route) => {
     route.path,
     (req: Request, res: Response, next: NextFunction) => {
       route
-        .action(req, res)
+        .action(req, res, next)
         .then(() => next)
         .catch((err: any) => next(err))
     }

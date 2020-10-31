@@ -1,9 +1,8 @@
-import { envVarsNames } from './constants/constants'
 import { tryToGetEnvVar } from './utils/utils'
 import app from './app'
 import db from './db/db'
 
-const port = tryToGetEnvVar(envVarsNames.PORT) as number
+const port = tryToGetEnvVar('PORT') as number
 
 const connection = () => {
   return db.connect()

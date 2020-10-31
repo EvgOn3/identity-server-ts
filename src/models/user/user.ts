@@ -1,5 +1,5 @@
-import { IUserDocument, IUserModel } from './../types/userType'
-import { excludedFields } from './../constants/constants'
+import { IUserDocument, IUserModel } from '../../types/userType'
+import { excludedFields } from '../../constants/constants'
 import { model, Schema } from 'mongoose'
 import isEmail from 'validator/lib/isEmail'
 import bcrypt from 'bcryptjs'
